@@ -9,7 +9,7 @@ AI driven 3D environment creation for Unreal Engine
 - Step 6: Open the AI_PCG Utility Widget in your project and go to the Event Graph. Paste your script into the Execute Python Script node. Compile and save.
 - Step 7: Now run the Widget, type a prompt and hit enter to submit it.
 # How it works:
-- Upon submitting a prompt the script searches through the assets in your project and picks and adds them dynamically into the level based on whatever your prompt was. Make sure your assets are appropriately named and make sure your prompts are as specific as possible for the script to work properly. The script supports adding Static Meshes and Niagara Systems. You can also control the area covered affected by adding an environmental scale to your prompt.
+- Upon submitting a prompt the script searches through the assets in your project and picks and adds them dynamically into the level based on whatever your prompt was. Make sure your assets are appropriately named and make sure your prompts are as specific as possible for the script to work properly. The script supports adding Static Meshes and Niagara Systems. You can also control the size of the area affected by adding an environmental scale to your prompt.
 # Whats Possible:
 - Basic Shapes & Distributions:
 - circle: Assets placed in a circular formation.
