@@ -2,7 +2,7 @@
 AI driven 3D environment creation for Unreal Engine
 # Getting Started:
 - Step 1: Enable the the following Plugins in your project - Python Editor Script Plugin, Python Foundation Packages, Editor Scripting Utilities, Geometry Script and Water.
-- Step 2: Install Google Gemini(pip Install google-genai) into your Unreal python environment. Watch video if you need help doing so... https://www.youtube.com/watch?v=Qt0AW08REKg&list=WL&index=1&ab_channel=MattLakeTA
+- Step 2: Install Google Gemini (pip Install google-genai) into your Unreal python environment. Watch video if you need help doing so... https://www.youtube.com/watch?v=Qt0AW08REKg&list=WL&index=1&ab_channel=MattLakeTA
 - Step 3: Go to https://aistudio.google.com/app/apikey and create and copy your own api key.
 - Step 4: Download and open the ScriptAI.py file from the repo. Add your api key into the line gemini_api_key = "YOUR-API-KEY" and then copy the script.
 - Step 5: Download and add the AI_PCG.uasset file from the repo into your Unreal project.
