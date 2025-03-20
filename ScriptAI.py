@@ -23,12 +23,10 @@ else:
 
 def asset_matches_keywords(asset, search_string):
     """
-    Returns True if the asset's name matches keywords, balancing precision and recall.
-    Prioritizes exact keyword matches, then falls back to substring matching for synonyms and keywords.
+    Returns True if the asset's name matches any of the keywords or synonyms derived from search_string.
     """
-    if not asset or not search_string:
-        unreal.log_warning(f"asset_matches_keywords - Early exit: Asset or search_string is None/empty. Asset: {asset}, Search String: {search_string}")
-        return False
+    if not asset:
+        return False  # Handle case where asset is None
 
     asset_name = asset.get_name().lower()
     normalized_asset_name = re.sub(r'[_\-]+', ' ', asset_name)
@@ -37,7 +35,8 @@ def asset_matches_keywords(asset, search_string):
         "tree": ["tree", "pine", "oak", "birch", "maple"],
         "grass": ["grass", "turf", "sod"],
         "rock": ["rock", "stone", "boulder"],
-        "fireflies": ["fireflies", "lightning bugs", "glowbugs", "bioluminescent particles", "ambient particles"] # Slightly broader synonyms
+        "emitter": ["emitter", "particle", "fx"],
+        "system": ["system", "niagara"]
     }
     final_keywords = []
     for keyword in keywords:
@@ -45,51 +44,13 @@ def asset_matches_keywords(asset, search_string):
             final_keywords.extend(synonyms[keyword])
         else:
             final_keywords.append(keyword)
-
-    unreal.log_warning(f"asset_matches_keywords - Processing Asset: '{asset_name}', Search String: '{search_string}', Keywords: {keywords}, Final Keywords: {final_keywords}")
-
-    # --- Debugging Logs ---
-    unreal.log_warning(f"  - Asset Name (raw): '{asset.get_name()}'") # Raw name for comparison
-    unreal.log_warning(f"  - Asset Name (lower): '{asset_name}'")
-    unreal.log_warning(f"  - Normalized Asset Name: '{normalized_asset_name}'")
-    unreal.log_warning(f"  - Search String: '{search_string}'")
-    unreal.log_warning(f"  - Keywords: {keywords}")
-    unreal.log_warning(f"  - Final Keywords (with synonyms): {final_keywords}")
-    # --- End Debugging Logs ---
-
-    for keyword in keywords:  # 1. Check for exact whole-word keyword matches (highest priority)
-        # --- Normalize the keyword here before creating the regex ---
-        normalized_keyword = re.sub(r'[_\-]+', ' ', keyword)
-        pattern = re.compile(r'\b' + re.escape(normalized_keyword) + r'\b', re.IGNORECASE)
+    for keyword in final_keywords:
+        pattern = re.compile(r'\b' + re.escape(keyword) + r'\b', re.IGNORECASE)
         if pattern.search(normalized_asset_name):
-            unreal.log_warning(f"Asset '{asset_name}' - Exact Keyword Match: '{keyword}'")
             return True
-
-    for keyword in final_keywords:  # 2. Check for whole-word synonym matches (medium priority)
-        # --- Normalize the synonym keyword here before creating the regex ---
-        normalized_keyword = re.sub(r'[_\-]+', ' ', keyword)
-        pattern = re.compile(r'\b' + re.escape(normalized_keyword) + r'\b', re.IGNORECASE)
-        if pattern.search(normalized_asset_name):
-            original_keyword = keywords[final_keywords.index(keyword) % len(keywords)] if keyword in synonyms.get(keywords[0], []) else keywords[0] # Correctly get original keyword
-            unreal.log_warning(f"Asset '{asset_name}' - Whole-Word Synonym Match: '{keyword}' (for '{original_keyword}')")
+    for keyword in final_keywords:
+        if keyword in normalized_asset_name:
             return True
-
-    for keyword in keywords:  # 3. Fallback: Substring match for keywords (lower priority - broader search)
-        # --- Normalize the keyword here for substring match ---
-        normalized_keyword = re.sub(r'[_\-]+', ' ', keyword)
-        if normalized_keyword in normalized_asset_name:
-            unreal.log_warning(f"Asset '{asset_name}' - Substring Keyword Match: '{keyword}' (Fallback)")
-            return True
-
-    for keyword in final_keywords: # 4. Fallback: Substring match for synonyms (lowest priority - broadest search)
-        # --- Normalize the synonym keyword here for substring match ---
-        normalized_keyword = re.sub(r'[_\-]+', ' ', keyword)
-        if normalized_keyword in normalized_asset_name:
-            original_keyword = keywords[final_keywords.index(keyword) % len(keywords)] if keyword in synonyms.get(keywords[0], []) else keywords[0] # Correctly get original keyword
-            unreal.log_warning(f"Asset '{asset_name}' - Substring Synonym Match: '{keyword}' (for '{original_keyword}') - Fallback")
-            return True
-
-    unreal.log_warning(f"Asset '{asset_name}' - No match for search: '{search_string}'")
     return False
 
 
@@ -1371,7 +1332,7 @@ def generate_assets_with_ai(prompt, environment_scale=1.0):
         return
 
     # ---- Gemini API Setup ----
-    gemini_api_key = "YOUR-API-KEY"  # Store securely if possible.
+    gemini_api_key = "AIzaSyDfiXl7jVwrS7EXoNlce04ToLEZzp6BpcE"  # Store securely if possible.
     if not gemini_api_key:
         unreal.log_error("GEMINI_API_KEY is not set. Set it!")
         return
@@ -1393,14 +1354,14 @@ The JSON should have the following structure:
     "assets": [
         {{
             "type": "StaticMesh",
-            "name": "Lake_01",
+            "name_contains": "Lake",
             "location": [1000, 950, 0],
             "rotation": [0, 0, 0],
             "scale": [1, 1, 1]
         }},
         {{
             "type": "NiagaraSystem",
-            "name": "Fireflies_System_V01",
+            "name_contains": "Fireflies",
             "location": [500, 500, 100],
             "rotation": [0, 0, 0],
             "scale": [1, 1, 1]
@@ -1477,6 +1438,7 @@ Additional requirements:
 - For "three_lane_map", generate three parallel lanes with cover placement.
 - The generated JSON must be valid and include only the assets and groups relevant to the prompt.
 - When searching for Niagara Systems like 'fireflies', ensure to only match systems specifically named 'fireflies' or very close synonyms, avoiding systems with just 'fire' in the name. Prioritize exact keyword matches.
+- Don't add underscores to words unless the user includes it in their prompt. 
 '''
 
     # Initialize ai_config before using it.
