@@ -1332,7 +1332,7 @@ def generate_assets_with_ai(prompt, environment_scale=1.0):
         return
 
     # ---- Gemini API Setup ----
-    gemini_api_key = "AIzaSyDfiXl7jVwrS7EXoNlce04ToLEZzp6BpcE"  # Store securely if possible.
+    gemini_api_key = "YOUR-API-KEY"  # Store securely if possible.
     if not gemini_api_key:
         unreal.log_error("GEMINI_API_KEY is not set. Set it!")
         return
