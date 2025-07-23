@@ -4,12 +4,15 @@ AI driven 3D environment creation for Unreal Engine
 - Step 1: Enable the the following Plugins in your project - Python Editor Script Plugin, Python Foundation Packages, Editor Scripting Utilities, Geometry Script and Water.
 - Step 2: Install Google Gemini (pip Install google-genai) into your Unreal python environment. Watch video if you need help doing so... https://www.youtube.com/watch?v=Qt0AW08REKg&list=WL&index=1&ab_channel=MattLakeTA
 - Step 3: Go to https://aistudio.google.com/app/apikey and create and copy your own api key.
-- Step 4: Download and open the ScriptAI.py file from the repo. Add your api key into the line gemini_api_key = "YOUR-API-KEY" and then copy the script.
-- Step 5: Download and add the AI_PCG.uasset file from the repo into your Unreal project.
-- Step 6: Open the AI_PCG Utility Widget in your project and go to the Event Graph. Paste your script into the Execute Python Script node. Compile and save.
+- Step 4: Open the event graph within both Editor Utility Widgets and add your api key into the line gemini_api_key = "" within the python script. Compile and save.
 - Step 7: Now run the Widget, type a prompt and hit enter to submit it.
 # How it works:
-- Upon submitting a prompt the script searches through the assets in your project and picks and adds them dynamically into the level based on whatever your prompt was. Make sure your assets are appropriately named and make sure your prompts are as specific as possible for the script to work properly. The script supports adding Static Meshes and Niagara Systems. You can also control the size of the area affected by adding an environmental scale to your prompt.
+- Precision Mode
+Leverage the power of AI to generate detailed and structured scenes from a simple text prompt. This tool spawns a wide array of assets—including Static Meshes, Niagara VFX, and Blueprints—using a vast library of precise placement patterns. Go beyond simple spawning by procedurally configuring PCG graphs, water bodies, fog, and post-process settings for a fully realized environment, all within a user-defined area. Can also control parameter overrides for PCG Graphs,Blueprints,Niagara Systems, post-processing and fog.
+- Crazy Fun Mode
+Unleash creative chaos! This mode discovers all available assets in your project and empowers the AI to act as a wild environment artist. Feed it a prompt, and watch as it intelligently selects from your meshes, Blueprints, and VFX to build surprising scenes. The AI will even attempt to creatively configure parameters on your assets to match the theme, leading to unique, fun, and unpredictable results.
+- Best Practice
+Use PCG volumes for the bounding boxes(user defined areas)
 # Whats Possible:
 - Basic Shapes & Distributions:
 - circle: Assets placed in a circular formation.
@@ -70,4 +73,5 @@ Natural Landscapes:
 - FPS Maps: three_lane_map pattern provides a starting point for FPS level layouts, which can be further customized.
 - Arena/Combat Zones: circle, grid, rectangle, diamond patterns could be used to create structured arena layouts with cover elements.
 # Demo
-- https://www.youtube.com/watch?v=opueHr27KUk&ab_channel=BrandonDavis
+- https://www.youtube.com/watch?v=EMtDle6EDjM&t=107s&ab_channel=BrandonDavis
+Check out the rest of Channel for more.
