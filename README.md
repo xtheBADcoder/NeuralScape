@@ -5,51 +5,73 @@ AI driven 3D environment creation for Unreal Engine
 - Step 2: Install Google Gemini (pip Install google-genai) into your Unreal python environment. Watch video if you need help doing so... https://www.youtube.com/watch?v=Qt0AW08REKg&list=WL&index=1&ab_channel=MattLakeTA
 - Step 3: Go to https://aistudio.google.com/app/apikey and create and copy your own api key.
 - Step 4: Open the event graph within both Editor Utility Widgets and add your api key into the line gemini_api_key = "" within the python script. Compile and save.
-- Step 7: Now run the Widget, type a prompt and hit enter to submit it.
+- Step 5: Now run the Widget, type a prompt and hit Generate.
 # How it works:
 - Precision Mode
 Leverage the power of AI to generate detailed and structured scenes from a simple text prompt. This tool spawns a wide array of assets—including Static Meshes, Niagara VFX, and Blueprints—using a vast library of precise placement patterns. Go beyond simple spawning by procedurally configuring PCG graphs, water bodies, fog, and post-process settings for a fully realized environment, all within a user-defined area. Can also control parameter overrides for PCG Graphs,Blueprints,Niagara Systems, post-processing and fog.
 - Crazy Fun Mode
 Unleash creative chaos! This mode discovers all available assets in your project and empowers the AI to act as a wild environment artist. Feed it a prompt, and watch as it intelligently selects from your meshes, Blueprints, and VFX to build surprising scenes. The AI will even attempt to creatively configure parameters on your assets to match the theme, leading to unique, fun, and unpredictable results.
 - Best Practice
-Use PCG volumes for the bounding boxes(user defined areas)
+Use PCG volumes for the bounding boxes(user defined areas).
 # Whats Possible:
-- Basic Shapes & Distributions:
-- circle: Assets placed in a circular formation.
-- scatter: Randomly distributed assets within a defined area.
-- grid: Assets arranged in a regular grid pattern.
-- hexagonal: Assets in a hexagonal grid layout.
-- cluster: Assets grouped tightly around a central point.
-- rectangle: Assets placed along the edges of a rectangle.
-- diamond: Assets placed along the edges of a diamond shape.
-- polygon: Assets placed along the edges of a polygon (number of sides configurable).
-- triangle: Assets placed along the vertices, edges, or filled area of a triangle.
-- concentric: Assets arranged in concentric rings.
-- jittered_grid: A grid pattern with randomized position jitter for a more natural look.
-- density_map_scatter: Scatter pattern influenced by a density map (currently uses a random density for demonstration but designed for real density maps).
-- Linear & Curvilinear Patterns:
-- linear_path: Assets placed along a straight line, with optional lateral offset.
-- zigzag: Assets placed in a zigzag line pattern.
-- wave: Assets arranged in a sinusoidal wave pattern along a line.
-- arc: Assets placed along an arc segment.
-- s_curve: Assets placed along an S-shaped curve (cubic Bézier).
-- spiral: Assets arranged in a spiral shape.
-- fibonacci_spiral: Assets in a Fibonacci spiral pattern.
-- Radial & Outward Patterns:
-- sector: Assets scattered within a sector of a circle (pie slice).
-- arc_radial_fill: Assets filling a sector of a circle radially.
-- radial_sunburst: Assets radiating outwards from a center point like sun rays.
-- circular_shockwave: Assets arranged in expanding concentric circles, like a shockwave.
-- spiral_wave: A spiral pattern with a wave-like radial displacement.
-- Village/City & Thematic Patterns:
-- small_village: Grid-based distribution suitable for a small village layout.
-- large_village: Grid-based distribution for a larger village or town.
-- three_lane_map: Pattern for creating a three-lane FPS map layout with cover elements.
-- city: Grid-based pattern suitable for city block generation.
-- floating: Assets placed in a 3D spherical distribution, simulating floating or orbital placement.
-- in_the_middle: Places assets at the center of a defined area or a specific center point, with optional scatter.
-- Fractal Pattern:
-- fractal: Simple binary tree fractal pattern for tree-like distributions or abstract shapes.
+- scatter: Randomly places assets throughout the defined area.
+- grid: Arranges assets in a grid formation with optional jitter.
+- jittered_grid: Arranges assets in a grid, then applies a significant random offset within each cell.
+- staggered_grid: Creates a grid where every other row or column is offset, like a brick pattern.
+- hexagonal	Arranges: assets in a hexagonal grid pattern.
+- cluster	Randomly places: assets within a specified radius of a central point.
+- multiple_clusters	Creates - several smaller, randomly placed clusters within the defined area.
+- density_map_scatter	Scatters: assets with a higher probability of spawning near the center of the area.
+- gradient_density_scatter: Scatters assets based on a linear falloff from a defined density_center.
+- checkerboard: Places assets on alternating squares of a grid.
+- poisson_disc_scatter	Simplified: A fallback that currently behaves like the scatter pattern.
+- voronoi	Simplified: Creates several random seed points and scatters assets around them.
+2D Shapes & Outlines	
+- circle: Arranges assets in a perfect circle.
+- ring / annulus: Randomly places assets in the space between an inner and outer radius.
+- rectangle: Places assets along the outline of a rectangle.
+- rounded_rectangle: Places assets along the outline of a rectangle with rounded corners.
+- cross: Arranges assets in a cross shape.
+- l_shape: Arranges assets in an "L" shape.
+- diamond: Places assets along the outline of a diamond shape.
+- polygon: Places assets along the outline of a regular polygon with a definable number of sides.
+- triangle: Places assets on the vertices, edges, or filled area of a triangle defined by 3 points.
+- star: Arranges assets in a star shape with a definable number of points.
+- chevron / arrow: Arranges assets in a V-shape, like a chevron or arrowhead.
+- crescent: Randomly places assets within a crescent moon shape.
+- heart: Arranges assets in the shape of a heart.
+- gear: Arranges assets in the shape of a gear, including teeth and an inner circle.
+- infinity_symbol: Arranges assets along the path of a lemniscate (infinity symbol).
+- teardrop_petal: Arranges assets in a teardrop or petal shape.
+2D Paths & Curves	
+- linear_path:  Places assets randomly along a straight line between two points.
+- arc: Arranges assets along a circular arc between a start and end angle.
+- s_curve: Places assets along a cubic Bézier curve, creating a smooth "S" shape.
+- wave: laces assets along a sine wave path.
+- zigzag: Places assets in a zigzag pattern between two points.
+- spiral: Arranges assets in an Archimedean spiral.
+- fibonacci_spiral: Arranges assets in a logarithmic spiral (Golden Spiral).
+- spiral_wave: Creates a spiral path with an added sine wave for a wobbly effect.
+- riverbed: Simulates a meandering river path with varying width.
+Thematic & Organic	
+- small_village / large_village: Simulates a village layout by placing assets in slightly randomized grid cells.
+- city: Creates a simplified city block layout with buildings placed inside blocks.
+- three_lane_map: Places assets along three parallel lanes, simulating a MOBA-style map layout.
+- fractal: Generates a simple fractal tree structure and places assets at its points.
+- radial_sunburst: Places assets in rays extending from a central point.
+- circular_shockwave: Arranges assets in expanding, slightly randomized concentric rings.
+Water-Based (Requires target_water_body)	
+- water_edge_scatter: Scatters assets in a band along the edges of a specified water body's spline.
+- water_spline_linear: Places assets linearly along the spline of a specified water body, with a lateral offset.
+3D Patterns	
+- floating: Randomly places assets in 3D space, creating a floating cloud effect.
+- grid_3d: Arranges assets in a three-dimensional grid.
+- sphere_surface: Evenly distributes assets on the surface of a sphere.
+- cube_surface_edges: Places assets randomly on the surface or along the edges of a 3D cube.
+- torus: Places assets on the surface of a 3D torus (donut shape).
+- cylinder_surface: Places assets on the surface (sides, top, or bottom) of a cylinder.
+- cone_surface: Places assets on the surface or circular base of a cone.
+- pyramid_surface
 
 # Environment Types Potentially Creatable:
 - Based on the patterns and the asset types the script handles (Static Meshes, Niagara Systems, and Water Bodies), you could potentially create a wide range of environment types. Here are some examples, keeping in mind that the specific assets available in your Unreal project will heavily influence the final look:
