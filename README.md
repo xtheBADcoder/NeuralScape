@@ -7,11 +7,11 @@ AI driven 3D environment creation for Unreal Engine
 - Step 4: Open the event graph within both Editor Utility Widgets and add your api key into the line gemini_api_key = "" within the python script. Compile and save.
 - Step 5: Now run the Widget, type a prompt and hit Generate.
 # How it works:
-- Precision Mode
+- Precision Mode:
 Leverage the power of AI to generate detailed and structured scenes from a simple text prompt. This tool spawns a wide array of assets—including Static Meshes, Niagara VFX, and Blueprints—using a vast library of precise placement patterns. Go beyond simple spawning by procedurally configuring PCG graphs, water bodies, fog, and post-process settings for a fully realized environment, all within a user-defined area. Can also control parameter overrides for PCG Graphs,Blueprints,Niagara Systems, post-processing and fog.
-- Crazy Fun Mode
+- Crazy Fun Mode:
 Unleash creative chaos! This mode discovers all available assets in your project and empowers the AI to act as a wild environment artist. Feed it a prompt, and watch as it intelligently selects from your meshes, Blueprints, and VFX to build surprising scenes. The AI will even attempt to creatively configure parameters on your assets to match the theme, leading to unique, fun, and unpredictable results.
-- Best Practice
+- Best Practice:
 Use PCG volumes for the bounding boxes(user defined areas).
 # Whats Possible:
 - scatter: Randomly places assets throughout the defined area.
